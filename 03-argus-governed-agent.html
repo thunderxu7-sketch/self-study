@@ -67,7 +67,8 @@
     pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
     code { font-family: var(--mono); }
     :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #166c64; background: #e8f8f5; font-size: .92em; }
-    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    .table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 0; font-size: 14px; }
     th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
     th { background: #f2f6fc; color: #31425c; }
     .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
@@ -80,6 +81,7 @@
       .grid { grid-template-columns: 1fr; }
       .flow { display: block; }
       .shot-hint { display: block; }
+      .table-wrap table { min-width: 640px; }
       .shot-fullpage .shot-frame img { width: 960px; max-width: none; max-height: none; height: auto; object-fit: initial; }
       .node { margin: 8px 0; }
       .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
@@ -105,6 +107,7 @@
       <div class="qhead"><div class="qnum">01</div><div><div class="kicker">Model vs deterministic policy</div><h2>哪些判断交给模型，哪些判断放在确定性策略层？</h2></div></div>
       <div class="answer">
         <p><strong>模型适合做开放式的搜索和归纳，策略层适合做不可含糊的授权判断。</strong> 我会把最终决策设计成“模型建议 + 规则校验 + policy override”，而不是让模型输出一个无法追溯的自然语言结论。</p>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>交给模型</th><th>确定性策略层</th></tr></thead>
           <tbody>
@@ -113,7 +116,8 @@
             <tr><td>提出 CLEAR / REVIEW / BLOCK 以及下一步补证据建议。</td><td>required evidence 必须成功且非空；证据缺失、错误或 provider 不可用时，禁止 CLEAR。</td></tr>
             <tr><td>生成给 reviewer 看的自然语言摘要。</td><td>审计日志、decision override、case 状态迁移和人工动作权限。</td></tr>
           </tbody>
-        </table>
+          </table>
+      </div>
       </div>
       <div class="flow" aria-label="Argus model policy architecture">
         <div class="node"><b>Model</b><small>select next tool<br>summarize observations</small></div>
@@ -156,6 +160,7 @@ forceReviewOnStepCap(investigation);</code></pre>
       <div class="qhead"><div class="qnum">02</div><div><div class="kicker">Fail-closed</div><h2>什么情况下 fail-closed？</h2></div></div>
       <div class="answer">
         <p>这里的 fail-closed 不是“任何异常都 BLOCK”，而是<strong>任何不能证明安全的情况都不能产出 CLEAR</strong>。根据风险类型，结果可以是 BLOCK，也可以是 REVIEW。</p>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>情况</th><th>安全结果</th><th>原因</th></tr></thead>
           <tbody>
@@ -166,7 +171,8 @@ forceReviewOnStepCap(investigation);</code></pre>
             <tr><td>policy/schema/工具权限违规、来源冲突或数据覆盖不足</td><td class="warn">REVIEW</td><td>暂停并暴露 coverage gap，而不是隐藏缺口。</td></tr>
             <tr><td>策略服务暂时不可达</td><td class="warn">保守策略 + REVIEW</td><td>可使用明确的保守默认值，但不能用模型自由决定。</td></tr>
           </tbody>
-        </table>
+          </table>
+      </div>
       </div>
       <div class="flow" aria-label="Argus fail closed decision path">
         <div class="node"><b>Any observation</b><small>tool result + freshness + source</small></div>

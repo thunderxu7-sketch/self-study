@@ -61,7 +61,8 @@
     code { font-family: var(--mono); }
     :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #5d3c9a; background: #f2edff; font-size: .92em; }
     .code-label { margin: 18px 0 0; color: var(--purple); font-size: 13px; font-weight: 800; }
-    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    .table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 0; font-size: 14px; }
     th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
     th { background: #f2f6fc; color: #31425c; }
     .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
@@ -74,6 +75,7 @@
       .card { padding: 19px; border-radius: 14px; }
       .grid { grid-template-columns: 1fr; }
       .flow { display: block; }
+      .table-wrap table { min-width: 640px; }
       .node { margin: 8px 0; }
       .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
     }
@@ -97,6 +99,7 @@
       <div class="qhead"><div class="qnum">01</div><div><div class="kicker">Side-effect separation</div><h2>read、simulate、write 为什么必须分离？</h2></div></div>
       <div class="answer">
         <p>三者都可能长得像“调用合约”，但风险和恢复方法完全不同。把它们塞进一个万能 <code>call</code>，模型就无法知道什么时候可以重试、什么时候必须停下来让人签名。</p>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>通道</th><th>含义</th><th>默认权限与恢复</th></tr></thead>
           <tbody>
@@ -104,7 +107,8 @@
             <tr><td><strong>simulate</strong></td><td>构建 calldata 并做 constant/preflight；可以得到 revert、selector、energy/fee 预估。</td><td class="safe">不移动价值、不持有 signer；失败通常是参数或业务条件问题。</td></tr>
             <tr><td><strong>write</strong></td><td>构建交易、请求签名、广播并跟踪确认。</td><td class="risk">必须显式确认；签名/广播后的未知状态禁止自动生成第二笔交易。</td></tr>
           </tbody>
-        </table>
+          </table>
+      </div>
       </div>
       <div class="flow" aria-label="Read simulate write separated lanes">
         <div class="node"><b>READ</b><small>RPC query → JSON evidence<br>safe retry / cache</small></div>
@@ -137,6 +141,7 @@
       <div class="qhead"><div class="qnum">02</div><div><div class="kicker">Transaction state &amp; recovery</div><h2>交易失败、超时、重复广播如何处理？</h2></div></div>
       <div class="answer">
         <p><strong>先分类，再动作。</strong> “失败”至少要区分输入错误、模拟 revert、签名被拒、广播明确失败、广播结果未知、链上确认失败。只有前两类可以直接修参数；广播未知时，第一动作永远是对账，不是重签。</p>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>事件</th><th>分类</th><th>策略</th></tr></thead>
           <tbody>
@@ -147,7 +152,8 @@
             <tr><td>广播超时、客户端断线</td><td class="warn">未知状态</td><td>按 txid/raw tx/nonce/指纹查询；在结论前禁止生成新 write。</td></tr>
             <tr><td>链上 confirmed revert</td><td class="risk">已发生的失败</td><td>当成业务结果入账，不复制动作；修参数后创建新意图。</td></tr>
           </tbody>
-        </table>
+          </table>
+      </div>
       </div>
       <div class="flow" aria-label="Transaction recovery state machine">
         <div class="node"><b>prepared</b><small>transaction preview</small></div>

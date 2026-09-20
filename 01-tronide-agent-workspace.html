@@ -65,7 +65,8 @@
     pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
     code { font-family: var(--mono); }
     :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #174b9d; background: #edf4ff; font-size: .92em; }
-    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    .table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 0; font-size: 14px; }
     th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
     th { background: #f2f6fc; color: #31425c; }
     .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
@@ -78,6 +79,7 @@
       .grid { grid-template-columns: 1fr; }
       .flow { display: block; }
       .shot-hint { display: block; }
+      .table-wrap table { min-width: 640px; }
       .shot-panorama .shot-frame img { width: 1440px; max-width: none; max-height: none; height: auto; object-fit: initial; }
       .node { margin: 8px 0; }
       .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
@@ -197,6 +199,7 @@
       <div class="qhead"><div class="qnum">03</div><div><div class="kicker">Irreversible side effects</div><h2>为什么主网写操作不能自动重试？</h2></div></div>
       <div class="answer">
         <p>因为“请求超时”不等于“链上没有发生”。签名之后、广播之后，客户端可能丢失响应，但节点或钱包已经接受交易；此时重新构造并签名一笔新交易，可能造成重复转账、重复授权或重复业务动作。</p>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>阶段</th><th>可以做什么</th><th>处理原则</th></tr></thead>
           <tbody>
@@ -205,7 +208,8 @@
             <tr><td>签名后或广播超时</td><td class="risk">禁止自动重试</td><td>先按 txid、raw tx、nonce 和交易指纹对账；状态未知时交给人工或显式恢复命令。</td></tr>
             <tr><td>已确认失败</td><td class="risk">不复制动作</td><td>把链上 revert 当业务结果，修正参数后由用户发起新意图。</td></tr>
           </tbody>
-        </table>
+          </table>
+      </div>
       </div>
       <div class="flow" aria-label="Mainnet write recovery states">
         <div class="node"><b>Preview</b><small>chain · selector · args · fee · risk</small></div>
