@@ -61,6 +61,9 @@
     .shot-frame { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
     .shot-link { display: block; width: 100%; }
     .shot img { display: block; width: 100%; max-height: 470px; object-fit: contain; border-radius: 8px; background: #e9eef5; }
+    .module-visual { overflow: hidden; }
+    .module-visual svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+    .module-visual .shot-hint { display: none; }
     figcaption { padding: 9px 4px 0; color: var(--muted); font-size: 13px; }
     .shot-hint { display: none; color: #708097; font-size: 12px; margin-top: 6px; }
     .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
@@ -129,14 +132,30 @@
         <div class="node"><b>Decision</b><small>CLEAR / REVIEW / BLOCK<br>persisted and auditable</small></div>
       </div>
       <p class="source">项目依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/AgentOrchestrator.java、LocalRuleAgentProvider.java、AnthropicLlmProvider.java。</p>
-      <figure class="shot shot-fullpage">
-        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
-        <img src="assets/argus-pages.png" alt="Argus GitHub Pages 静态演示，显示 plan act observe decide、钱包样例和 CLEAR REVIEW BLOCK 入口" loading="eager" width="2880" height="2198">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>Argus 的 demo 把“plan → act → observe → decide”和 CLEAR / REVIEW / BLOCK 结果放在同一个产品面上；面试时要补充说明：浏览器页是静态 fixture，真实编排与策略边界在后端服务中。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 400" role="img" aria-label="Argus 模型层与确定性策略层分工图">
+    <title>Argus 模型层与确定性策略层分工</title>
+    <rect width="760" height="400" rx="18" fill="#0d0b16"/>
+    <text x="24" y="35" fill="#cbb7ff" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">ARGUS / MODEL PROPOSES · POLICY DISPOSES</text>
+    <rect x="24" y="78" width="318" height="196" rx="16" fill="#1b1529" stroke="#9d6cff" stroke-width="2"/>
+    <rect x="418" y="78" width="318" height="196" rx="16" fill="#121f24" stroke="#45c9bd" stroke-width="2"/>
+    <text x="48" y="114" fill="#b993ff" font-size="22" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">MODEL / LLM</text>
+    <text x="48" y="151" fill="#e8ddff" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">choose next tool</text>
+    <text x="48" y="179" fill="#e8ddff" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">summarize evidence</text>
+    <text x="48" y="207" fill="#e8ddff" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">propose decision</text>
+    <text x="48" y="246" fill="#9e8bbd" font-size="13" font-family="ui-monospace,monospace">structured tool call / thought</text>
+    <text x="442" y="114" fill="#63e1d4" font-size="22" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">POLICY / CODE</text>
+    <text x="442" y="151" fill="#d6f7f3" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">allowlist + schema</text>
+    <text x="442" y="179" fill="#d6f7f3" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">required evidence</text>
+    <text x="442" y="207" fill="#d6f7f3" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">threshold + override</text>
+    <text x="442" y="246" fill="#82bdb8" font-size="13" font-family="ui-monospace,monospace">persisted audit / final guard</text>
+    <path d="M342 176 H418" stroke="#fff" stroke-width="4"/><path d="M404 165 L420 176 L404 187" fill="none" stroke="#fff" stroke-width="4"/>
+    <rect x="174" y="316" width="412" height="46" rx="23" fill="#7c4dff"/>
+    <text x="380" y="345" text-anchor="middle" fill="#fff" font-size="17" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">CLEAR only with policy-valid evidence</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应 Argus 的 Agent provider 与确定性策略层；模型负责调查与解释，策略层决定是否允许 CLEAR。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/AgentOrchestrator.java、LocalRuleAgentProvider.java、AnthropicLlmProvider.java。</div>
+</figure>
       <pre><code>// 真实运行时的核心形态：每一步先持久化，再决定是否结束
 for (int step = 1; step &lt;= investigation.maxSteps(); step++) {
     AgentAction action = llmProvider.nextAction(context);
@@ -197,14 +216,33 @@ if ("CLEAR".equals(proposed.decision())
     return finish("REVIEW", "model CLEAR overridden: missing evidence");
 }
 return policy.validate(proposed);</code></pre>
-      <figure class="shot shot-fullpage">
-        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
-        <img src="assets/argus-pages.png" alt="Argus 静态演示中展示 CLEAR、REVIEW、BLOCK 不同结果的样例" loading="eager" width="2880" height="2198">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>页面里的 CLEAR / REVIEW / BLOCK 是产品结果的可视化；面试时应强调其中 REVIEW 不是失败，而是对“证据不足、模型未完成或策略无法确定”的安全出口。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 430" role="img" aria-label="Argus fail-closed 决策分支图">
+    <title>Argus fail-closed 决策分支</title>
+    <rect width="760" height="430" rx="18" fill="#0d0b16"/>
+    <text x="24" y="35" fill="#cbb7ff" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">ARGUS / FAIL-CLOSED GUARD</text>
+    <rect x="250" y="70" width="260" height="62" rx="14" fill="#211a33" stroke="#9d6cff" stroke-width="2"/>
+    <text x="380" y="97" text-anchor="middle" fill="#f0eaff" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">OBSERVATIONS</text>
+    <text x="380" y="119" text-anchor="middle" fill="#bcaed2" font-size="12" font-family="ui-monospace,monospace">source · freshness · evidenceComplete</text>
+    <path d="M380 132 V166" stroke="#fff" stroke-width="4"/><path d="M370 158 L380 172 L390 158" fill="none" stroke="#fff" stroke-width="4"/>
+    <rect x="188" y="170" width="384" height="66" rx="14" fill="#121f24" stroke="#45c9bd" stroke-width="2"/>
+    <text x="380" y="198" text-anchor="middle" fill="#d6f7f3" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">HARD GUARD</text>
+    <text x="380" y="220" text-anchor="middle" fill="#82bdb8" font-size="12" font-family="ui-monospace,monospace">direct hit? required evidence? provider ok?</text>
+    <path d="M260 236 L132 282" stroke="#bd3a42" stroke-width="4"/><path d="M380 236 V282" stroke="#edc56c" stroke-width="4"/><path d="M500 236 L628 282" stroke="#45c9bd" stroke-width="4"/>
+    <rect x="38" y="290" width="188" height="88" rx="14" fill="#32191e" stroke="#bd3a42" stroke-width="2"/>
+    <text x="132" y="322" text-anchor="middle" fill="#ffb8bd" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">BLOCK</text>
+    <text x="132" y="348" text-anchor="middle" fill="#eab6ba" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">direct sanctions hit</text>
+    <rect x="286" y="290" width="188" height="88" rx="14" fill="#332b18" stroke="#edc56c" stroke-width="2"/>
+    <text x="380" y="322" text-anchor="middle" fill="#ffd985" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">REVIEW</text>
+    <text x="380" y="348" text-anchor="middle" fill="#f0d28c" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">missing / failed evidence</text>
+    <rect x="534" y="290" width="188" height="88" rx="14" fill="#12332f" stroke="#45c9bd" stroke-width="2"/>
+    <text x="628" y="322" text-anchor="middle" fill="#8ef0e5" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">CLEAR</text>
+    <text x="628" y="348" text-anchor="middle" fill="#a6dcd7" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">only after valid proof</text>
+    <text x="380" y="410" text-anchor="middle" fill="#9e8bbd" font-size="13" font-family="ui-monospace,monospace">model CLEAR can still be overridden to REVIEW</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应 Argus 的 fail-closed 分支：硬命中走 BLOCK，证据不足走 REVIEW，只有证据完整且策略通过才能 CLEAR。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/LocalRuleAgentProvider.java、AnthropicLlmProvider.java。</div>
+</figure>
       <div class="quote">区分两个词：<strong>BLOCK 是风险证据足够强，REVIEW 是安全证据不足。</strong> 两者都阻止自动放行，但处理动作不同。</div>
     </section>
 
@@ -247,14 +285,43 @@ return policy.validate(proposed);</code></pre>
     "sideEffect": "none"
   }
 }</code></pre>
-      <figure class="shot shot-fullpage">
-        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
-        <img src="assets/argus-pages.png" alt="Argus 静态演示中的钱包选择与 CLEAR REVIEW BLOCK 按钮" loading="eager" width="2880" height="2198">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>静态页面中的 fixture wallet 与 CLEAR / REVIEW / BLOCK 控件可以用来演示人工审核入口；真实产品还应把 reviewer 身份、证据时间线、policy 版本和最终动作写入后端审计。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 430" role="img" aria-label="Argus REVIEW_REQUIRED 人工审核工作流图">
+    <title>Argus REVIEW_REQUIRED 人工审核工作流</title>
+    <rect width="760" height="430" rx="18" fill="#0d0b16"/>
+    <text x="24" y="35" fill="#cbb7ff" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">ARGUS / HUMAN REVIEW CASE</text>
+    <rect x="24" y="76" width="210" height="290" rx="16" fill="#171226" stroke="#7251b9" stroke-width="2"/>
+    <text x="46" y="112" fill="#b993ff" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">CASE TIMELINE</text>
+    <circle cx="60" cy="151" r="8" fill="#45c9bd"/><line x1="60" y1="159" x2="60" y2="300" stroke="#7251b9" stroke-width="3"/>
+    <text x="84" y="156" fill="#d6f7f3" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">sanctions_screen</text>
+    <text x="84" y="178" fill="#8e7fa8" font-size="12" font-family="ui-monospace,monospace">source + captured_at + hash</text>
+    <circle cx="60" cy="218" r="8" fill="#edc56c"/>
+    <text x="84" y="223" fill="#ffd985" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">risk_rules incomplete</text>
+    <text x="84" y="245" fill="#8e7fa8" font-size="12" font-family="ui-monospace,monospace">coverage gap recorded</text>
+    <circle cx="60" cy="286" r="8" fill="#9d6cff"/>
+    <text x="84" y="291" fill="#e8ddff" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">REVIEW_REQUIRED</text>
+    <text x="84" y="313" fill="#8e7fa8" font-size="12" font-family="ui-monospace,monospace">automation paused</text>
+    <rect x="272" y="76" width="214" height="290" rx="16" fill="#121f24" stroke="#45c9bd" stroke-width="2"/>
+    <text x="296" y="112" fill="#63e1d4" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">REVIEWER PANEL</text>
+    <rect x="296" y="136" width="166" height="34" rx="8" fill="#1b3034"/><text x="310" y="158" fill="#d6f7f3" font-size="13" font-family="ui-monospace,monospace">policy_v17</text>
+    <rect x="296" y="181" width="166" height="34" rx="8" fill="#1b3034"/><text x="310" y="203" fill="#d6f7f3" font-size="13" font-family="ui-monospace,monospace">evidence / failures</text>
+    <rect x="296" y="226" width="166" height="34" rx="8" fill="#1b3034"/><text x="310" y="248" fill="#d6f7f3" font-size="13" font-family="ui-monospace,monospace">model rationale</text>
+    <rect x="296" y="276" width="76" height="34" rx="8" fill="#0b8f86"/><text x="334" y="298" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">APPROVE</text>
+    <rect x="386" y="276" width="76" height="34" rx="8" fill="#332b18" stroke="#edc56c"/><text x="424" y="298" text-anchor="middle" fill="#ffd985" font-size="13" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">MORE</text>
+    <rect x="524" y="76" width="212" height="290" rx="16" fill="#211a33" stroke="#9d6cff" stroke-width="2"/>
+    <text x="548" y="112" fill="#b993ff" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">AUDIT EVENT</text>
+    <text x="548" y="155" fill="#e8ddff" font-size="14" font-family="ui-monospace,monospace">reviewer: user_42</text>
+    <text x="548" y="182" fill="#e8ddff" font-size="14" font-family="ui-monospace,monospace">action: request_more</text>
+    <text x="548" y="209" fill="#e8ddff" font-size="14" font-family="ui-monospace,monospace">reason: evidence gap</text>
+    <text x="548" y="236" fill="#e8ddff" font-size="14" font-family="ui-monospace,monospace">time: captured_at</text>
+    <rect x="548" y="270" width="164" height="43" rx="10" fill="#7c4dff"/><text x="630" y="297" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">append-only</text>
+    <path d="M234 220 H272" stroke="#fff" stroke-width="4"/><path d="M262 209 L276 220 L262 231" fill="none" stroke="#fff" stroke-width="4"/>
+    <path d="M486 220 H524" stroke="#fff" stroke-width="4"/><path d="M514 209 L528 220 L514 231" fill="none" stroke="#fff" stroke-width="4"/>
+    <text x="380" y="405" text-anchor="middle" fill="#9e8bbd" font-size="13" font-family="ui-monospace,monospace">REVIEW_REQUIRED is a persisted state, not a frontend afterthought</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应 Argus 的人工审核入口：调查暂停、证据时间线聚合、reviewer 作出动作并追加审计事件。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/AgentOrchestrator.java、AgentAction.java。</div>
+</figure>
       <div class="quote">面试回答模板： “我不会把人工审核放在模型输出之后的前端 if 判断里，而会把 REVIEW_REQUIRED 做成持久化状态；自动流程停在这里，reviewer 的动作拥有自己的权限、理由和审计事件。”</div>
     </section>
 

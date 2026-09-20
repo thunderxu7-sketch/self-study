@@ -59,6 +59,9 @@
     .shot-frame { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
     .shot-link { display: block; width: 100%; }
     .shot img { display: block; width: 100%; max-height: 270px; object-fit: contain; border-radius: 8px; background: #e9eef5; }
+    .module-visual { overflow: hidden; }
+    .module-visual svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+    .module-visual .shot-hint { display: none; }
     figcaption { padding: 9px 4px 0; color: var(--muted); font-size: 13px; }
     .shot-hint { display: none; color: #708097; font-size: 12px; margin-top: 6px; }
     .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
@@ -141,14 +144,41 @@
     "status": "verified"
   }
 }</code></pre>
-      <figure class="shot shot-panorama">
-        <div class="shot-frame"><a class="shot-link" href="assets/tronide-test.png" target="_blank" rel="noopener">
-        <img src="assets/tronide-test.png" alt="TronIDE 测试环境截图，包含工作区、AI 面板、任务卡、钱包和网络入口" loading="eager" width="2880" height="300">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>工作区选择器、AI 面板、任务卡、钱包与网络按钮同时出现，说明 session 不是单一对话，而是把执行上下文集中在一个可控工作区。该图为测试环境，不是主网授权证明。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 400" role="img" aria-label="TronIDE Session、Task、Artifact 三层数据模型图">
+    <title>TronIDE Session、Task、Artifact 数据模型</title>
+    <rect width="760" height="400" rx="18" fill="#f4f8ff"/>
+    <text x="24" y="35" fill="#17335f" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">TRONIDE / WORKSPACE DATA MODEL</text>
+    <text x="24" y="58" fill="#58708f" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">不可变 action digest 把上下文、执行和交付证据串起来</text>
+    <rect x="24" y="82" width="220" height="232" rx="16" fill="#eaf2ff" stroke="#8fb7f5"/>
+    <rect x="270" y="82" width="220" height="232" rx="16" fill="#e6f8f5" stroke="#86d2c9"/>
+    <rect x="516" y="82" width="220" height="232" rx="16" fill="#fff4dc" stroke="#edc56c"/>
+    <text x="44" y="116" fill="#2367d1" font-size="22" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">SESSION</text>
+    <text x="44" y="150" fill="#152238" font-size="16" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">identity</text>
+    <text x="44" y="177" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">workspace root</text>
+    <text x="44" y="204" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">network + policy</text>
+    <text x="44" y="231" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">event stream</text>
+    <text x="44" y="279" fill="#2367d1" font-size="14" font-family="ui-monospace,monospace">sess_123 · active</text>
+    <text x="290" y="116" fill="#0b8f86" font-size="22" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">TASK</text>
+    <text x="290" y="150" fill="#152238" font-size="16" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">intent + plan</text>
+    <text x="290" y="177" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">current step</text>
+    <text x="290" y="204" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">tool calls</text>
+    <text x="290" y="231" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">approval + outcome</text>
+    <text x="290" y="279" fill="#0b8f86" font-size="14" font-family="ui-monospace,monospace">task_456 · checkpoint</text>
+    <text x="536" y="116" fill="#b56a00" font-size="22" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">ARTIFACT</text>
+    <text x="536" y="150" fill="#152238" font-size="16" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">diff / build / test</text>
+    <text x="536" y="177" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">tx preview / txid</text>
+    <text x="536" y="204" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">content hash</text>
+    <text x="536" y="231" fill="#152238" font-size="16" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">provenance</text>
+    <text x="536" y="279" fill="#b56a00" font-size="14" font-family="ui-monospace,monospace">art_789 · verified</text>
+    <path d="M244 197 H270" stroke="#2367d1" stroke-width="4"/><path d="M263 188 L276 197 L263 206" fill="none" stroke="#2367d1" stroke-width="4"/>
+    <path d="M490 197 H516" stroke="#0b8f86" stroke-width="4"/><path d="M509 188 L522 197 L509 206" fill="none" stroke="#0b8f86" stroke-width="4"/>
+    <rect x="180" y="337" width="400" height="38" rx="19" fill="#152238"/>
+    <text x="380" y="362" text-anchor="middle" fill="#fff" font-size="15" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">approval → immutable action digest → audit evidence</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应 TronIDE 工作区的核心数据边界；不是把同一张总览截图重复贴上，而是把 Session、Task、Artifact 的关系画成可口述的模型。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/agent1/tronide.html；示意图为面试化抽象。</div>
+</figure>
       <div class="quote">面试可以这样说： “我会把 session 做成上下文和策略边界，把 task 做成可恢复的状态机，把 artifact 做成带 hash 和 provenance 的交付证据；这样模型换了，审计和交付协议仍然稳定。”</div>
     </section>
 
@@ -184,14 +214,40 @@
   },
   "timeoutMs": 30000
 }</code></pre>
-      <figure class="shot shot-panorama">
-        <div class="shot-frame"><a class="shot-link" href="assets/tronide-test.png" target="_blank" rel="noopener">
-        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中的 AI 面板与任务卡" loading="eager" width="2880" height="300">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>AI 面板和任务卡是产品层；真正的 Tool 调用、策略检查和钱包审批应在后面的 Orchestrator 层完成，而不是让 UI 或模型直接执行。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 400" role="img" aria-label="TronIDE Tool、Skill、Orchestrator 分层图">
+    <title>TronIDE Tool、Skill、Orchestrator 分层</title>
+    <rect width="760" height="400" rx="18" fill="#f8fbff"/>
+    <text x="24" y="35" fill="#17335f" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">TRONIDE / RUNTIME LAYERS</text>
+    <rect x="24" y="78" width="132" height="176" rx="14" fill="#fff" stroke="#c9dcff" stroke-width="2"/>
+    <rect x="184" y="78" width="164" height="176" rx="14" fill="#eaf2ff" stroke="#8fb7f5" stroke-width="2"/>
+    <rect x="376" y="78" width="188" height="176" rx="14" fill="#e6f8f5" stroke="#86d2c9" stroke-width="2"/>
+    <rect x="592" y="78" width="144" height="176" rx="14" fill="#fff4dc" stroke="#edc56c" stroke-width="2"/>
+    <text x="44" y="112" fill="#152238" font-size="17" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">USER INTENT</text>
+    <text x="44" y="150" fill="#5f6f86" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">“部署合约”</text>
+    <text x="44" y="178" fill="#5f6f86" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">context + goal</text>
+    <text x="204" y="112" fill="#2367d1" font-size="19" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">SKILL</text>
+    <text x="204" y="150" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">preconditions</text>
+    <text x="204" y="178" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">tool order</text>
+    <text x="204" y="206" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">stop conditions</text>
+    <text x="396" y="112" fill="#0b8f86" font-size="19" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">ORCHESTRATOR</text>
+    <text x="396" y="150" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">state + budget</text>
+    <text x="396" y="178" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">policy + approval</text>
+    <text x="396" y="206" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">events + resume</text>
+    <text x="612" y="112" fill="#b56a00" font-size="19" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">TOOL</text>
+    <text x="612" y="150" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">read</text>
+    <text x="612" y="178" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">compile</text>
+    <text x="612" y="206" fill="#bd3a42" font-size="14" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">sign = high risk</text>
+    <path d="M156 165 H184" stroke="#2367d1" stroke-width="4"/><path d="M176 156 L188 165 L176 174" fill="none" stroke="#2367d1" stroke-width="4"/>
+    <path d="M348 165 H376" stroke="#2367d1" stroke-width="4"/><path d="M368 156 L380 165 L368 174" fill="none" stroke="#2367d1" stroke-width="4"/>
+    <path d="M564 165 H592" stroke="#0b8f86" stroke-width="4"/><path d="M584 156 L596 165 L584 174" fill="none" stroke="#0b8f86" stroke-width="4"/>
+    <rect x="112" y="290" width="536" height="60" rx="15" fill="#152238"/>
+    <text x="380" y="316" text-anchor="middle" fill="#fff" font-size="15" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">model proposes → policy gate → tool adapter → artifact / event log</text>
+    <text x="380" y="338" text-anchor="middle" fill="#a9c8f7" font-size="12" font-family="ui-monospace,monospace">模型不能绕过 Orchestrator 直接执行副作用</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应 Tool、Skill、Orchestrator 的职责边界；右侧的 Tool 只暴露窄能力，写入动作经过 Orchestrator 的策略闸门。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/agent1/tronide.html；示意图为面试化抽象。</div>
+</figure>
       <div class="quote">一句话：Tool 是“手”，Skill 是“业务流程”，Orchestrator 是“带刹车和记录仪的运行时”。</div>
     </section>
 
@@ -233,14 +289,41 @@ for (let i = 0; i &lt; attempts; i += 1) {
 
 // broadcast timeout: query existing state; do not construct a new write.
 return { status: "unknown", nextAction: "manual-reconcile" };</code></pre>
-      <figure class="shot shot-panorama">
-        <div class="shot-frame"><a class="shot-link" href="assets/tronide-test.png" target="_blank" rel="noopener">
-        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中的钱包和 Nile 网络入口" loading="eager" width="2880" height="300">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>钱包按钮与 Nile 网络入口是“网络选择 + 钱包授权”的可见边界。它能帮助面试官理解：主网写入不是普通 Tool retry，而是必须让用户看见并确认的高风险动作。截图本身不代表主网状态。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 400" role="img" aria-label="TronIDE 主网写操作交易状态与禁止自动重试图">
+    <title>主网写操作：未知状态先对账，不自动重试</title>
+    <rect width="760" height="400" rx="18" fill="#fff9f8"/>
+    <text x="24" y="35" fill="#6c2027" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">MAINNET WRITE / NO BLIND RETRY</text>
+    <text x="24" y="58" fill="#886269" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">超时不等于未发生；广播后的动作必须先 reconciliation</text>
+    <rect x="24" y="90" width="132" height="84" rx="13" fill="#eaf2ff" stroke="#8fb7f5"/>
+    <rect x="184" y="90" width="132" height="84" rx="13" fill="#e6f8f5" stroke="#86d2c9"/>
+    <rect x="344" y="90" width="132" height="84" rx="13" fill="#fff4dc" stroke="#edc56c"/>
+    <rect x="504" y="90" width="132" height="84" rx="13" fill="#fff0f1" stroke="#e69aa0"/>
+    <text x="90" y="124" text-anchor="middle" fill="#2367d1" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">PREVIEW</text>
+    <text x="90" y="151" text-anchor="middle" fill="#152238" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">chain · args · fee</text>
+    <text x="250" y="124" text-anchor="middle" fill="#0b8f86" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">SIGN</text>
+    <text x="250" y="151" text-anchor="middle" fill="#152238" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">one approval</text>
+    <text x="410" y="124" text-anchor="middle" fill="#b56a00" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">BROADCAST</text>
+    <text x="410" y="151" text-anchor="middle" fill="#152238" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">txid / timeout</text>
+    <text x="570" y="124" text-anchor="middle" fill="#bd3a42" font-size="18" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">UNKNOWN</text>
+    <text x="570" y="151" text-anchor="middle" fill="#152238" font-size="13" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">not “failed”</text>
+    <path d="M156 132 H184" stroke="#2367d1" stroke-width="4"/><path d="M176 123 L188 132 L176 141" fill="none" stroke="#2367d1" stroke-width="4"/>
+    <path d="M316 132 H344" stroke="#0b8f86" stroke-width="4"/><path d="M336 123 L348 132 L336 141" fill="none" stroke="#0b8f86" stroke-width="4"/>
+    <path d="M476 132 H504" stroke="#b56a00" stroke-width="4"/><path d="M496 123 L508 132 L496 141" fill="none" stroke="#b56a00" stroke-width="4"/>
+    <rect x="40" y="220" width="290" height="112" rx="15" fill="#fff" stroke="#e69aa0" stroke-width="2"/>
+    <text x="60" y="250" fill="#bd3a42" font-size="17" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">禁止：自动构造第二笔交易</text>
+    <text x="60" y="278" fill="#5f6f86" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">可能导致重复转账、重复授权、</text>
+    <text x="60" y="301" fill="#5f6f86" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">nonce / 费用 / 业务状态不一致</text>
+    <path d="M570 174 V210" stroke="#bd3a42" stroke-width="4" stroke-dasharray="7 6"/>
+    <path d="M548 219 L592 263 M592 219 L548 263" stroke="#bd3a42" stroke-width="8"/>
+    <rect x="374" y="220" width="344" height="112" rx="15" fill="#e6f8f5" stroke="#86d2c9" stroke-width="2"/>
+    <text x="394" y="250" fill="#0b8f86" font-size="17" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">允许：显式 reconciliation</text>
+    <text x="394" y="278" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">按 txid / raw tx / nonce / fingerprint</text>
+    <text x="394" y="301" fill="#152238" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">确认 confirmed / failed / expired</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应主网写操作的交易生命周期；这里强调的是“未知状态先查，不生成第二笔写交易”，而不是用通用 IDE 截图代替风险说明。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/justlend-cli/src/lib/tx.ts、http.ts、error.ts；示意图为面试化抽象。</div>
+</figure>
       <div class="quote">面试关键词：unknown outcome、transaction reconciliation、exactly-once illusion、不可逆副作用。不要承诺“至少一次重试”，要承诺“未知状态先对账”。</div>
     </section>
 
@@ -269,14 +352,39 @@ return { status: "unknown", nextAction: "manual-reconcile" };</code></pre>
         <div class="mini"><h3>低风险自动化</h3><p>读源码、编译、静态检查、本地测试、Nile view 调用。失败可保留诊断并继续修复，但必须受 timeout、预算和文件 root 约束。</p></div>
         <div class="mini"><h3>高风险人工闸门</h3><p>导出签名交易、部署、转账、授权、升级合约和主网写入。用户拒绝后任务进入 stopped/rejected，不能由模型换一个参数悄悄重来。</p></div>
       </div>
-      <figure class="shot shot-panorama">
-        <div class="shot-frame"><a class="shot-link" href="assets/tronide-test.png" target="_blank" rel="noopener">
-        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中显示 Review 相关任务和钱包入口" loading="eager" width="2880" height="300">
-        </a></div>
-        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
-        <figcaption><strong>项目截图：</strong>把 Review mode、任务卡和钱包入口放在工作区中，意味着人工确认不是“出了问题再找人”，而是运行时的一等状态。</figcaption>
-        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
-      </figure>
+<figure class="shot module-visual">
+  <svg viewBox="0 0 760 400" role="img" aria-label="TronIDE 权限、文件边界和人工确认面板图">
+    <title>TronIDE 权限、文件边界与人工确认</title>
+    <rect width="760" height="400" rx="18" fill="#f8fbff"/>
+    <text x="24" y="35" fill="#17335f" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">POLICY / FILE BOUNDARY / HUMAN GATE</text>
+    <rect x="24" y="78" width="220" height="242" rx="16" fill="#eaf2ff" stroke="#8fb7f5" stroke-width="2"/>
+    <rect x="270" y="78" width="220" height="242" rx="16" fill="#e6f8f5" stroke="#86d2c9" stroke-width="2"/>
+    <rect x="516" y="78" width="220" height="242" rx="16" fill="#fff4dc" stroke="#edc56c" stroke-width="2"/>
+    <text x="44" y="112" fill="#2367d1" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">WORKSPACE ROOT</text>
+    <rect x="44" y="135" width="180" height="29" rx="7" fill="#fff"/><text x="56" y="155" fill="#152238" font-size="14" font-family="ui-monospace,monospace">/repo/demo/src</text>
+    <rect x="44" y="174" width="180" height="29" rx="7" fill="#fff"/><text x="56" y="194" fill="#152238" font-size="14" font-family="ui-monospace,monospace">/repo/demo/test</text>
+    <rect x="44" y="213" width="180" height="29" rx="7" fill="#fff0f1"/><text x="56" y="233" fill="#bd3a42" font-size="14" font-family="ui-monospace,monospace">.env / *.key  DENY</text>
+    <text x="44" y="282" fill="#5f6f86" font-size="14" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">canonicalize · root check</text>
+    <text x="290" y="112" fill="#0b8f86" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">POLICY ENGINE</text>
+    <text x="290" y="150" fill="#152238" font-size="15" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">actor + tool</text>
+    <text x="290" y="177" fill="#152238" font-size="15" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">network + max fee</text>
+    <text x="290" y="204" fill="#152238" font-size="15" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">risk + approval</text>
+    <rect x="290" y="228" width="180" height="40" rx="9" fill="#152238"/><text x="380" y="254" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">mainnet-write = DENY</text>
+    <text x="536" y="112" fill="#b56a00" font-size="20" font-weight="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">REVIEW MODE</text>
+    <rect x="536" y="135" width="180" height="106" rx="10" fill="#fff" stroke="#edc56c"/>
+    <text x="550" y="158" fill="#5f6f86" font-size="12" font-family="ui-monospace,monospace">selector: transfer(...)</text>
+    <text x="550" y="180" fill="#5f6f86" font-size="12" font-family="ui-monospace,monospace">network: mainnet</text>
+    <text x="550" y="202" fill="#5f6f86" font-size="12" font-family="ui-monospace,monospace">fee: 120 TRX</text>
+    <text x="550" y="224" fill="#bd3a42" font-size="12" font-weight="700" font-family="ui-monospace,monospace">approval: PENDING</text>
+    <rect x="536" y="264" width="84" height="32" rx="8" fill="#0b8f86"/><text x="578" y="285" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">APPROVE</text>
+    <rect x="632" y="264" width="84" height="32" rx="8" fill="#fff0f1" stroke="#e69aa0"/><text x="674" y="285" text-anchor="middle" fill="#bd3a42" font-size="13" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">REJECT</text>
+    <path d="M244 198 H270" stroke="#2367d1" stroke-width="4"/><path d="M263 189 L276 198 L263 207" fill="none" stroke="#2367d1" stroke-width="4"/>
+    <path d="M490 198 H516" stroke="#0b8f86" stroke-width="4"/><path d="M509 189 L522 198 L509 207" fill="none" stroke="#0b8f86" stroke-width="4"/>
+    <rect x="152" y="345" width="456" height="30" rx="15" fill="#2367d1"/><text x="380" y="365" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">diff first · sign last · audit always</text>
+  </svg>
+  <figcaption><strong>模块图解：</strong>对应权限、文件边界和 Review mode；文件写入先出 diff，主网写入先过 policy，再由用户确认钱包动作。</figcaption>
+  <div class="source">依据：/Users/tron/Object/trontech/interview-prep/agent1/tronide.html；示意图为面试化抽象。</div>
+</figure>
       <div class="quote">最终边界：Agent 可以生成代码、计划和交易候选；用户/钱包才拥有签名权，Orchestrator 才拥有执行编排权，审计系统拥有不可变的事实记录。</div>
     </section>
 
