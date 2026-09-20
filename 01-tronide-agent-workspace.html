@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TronIDE Agent Workspace｜面试准备</title>
+  <style>
+    :root {
+      --ink: #152238;
+      --muted: #5f6f86;
+      --line: #dbe4f0;
+      --panel: #ffffff;
+      --bg: #f5f8fc;
+      --blue: #2367d1;
+      --blue-soft: #eaf2ff;
+      --teal: #0b8f86;
+      --teal-soft: #e6f8f5;
+      --amber: #b56a00;
+      --amber-soft: #fff4dc;
+      --red: #bd3a42;
+      --red-soft: #fff0f1;
+      --shadow: 0 14px 34px rgba(28, 53, 88, .08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.72 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    .shell { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 58px 0 34px; }
+    .eyebrow, .kicker { color: var(--blue); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 10px 0 14px; font-size: clamp(30px, 5vw, 48px); line-height: 1.12; letter-spacing: -.035em; }
+    h2 { margin: 0; font-size: 25px; line-height: 1.25; }
+    h3 { margin: 20px 0 8px; font-size: 18px; line-height: 1.35; }
+    p { margin: 9px 0; }
+    ul, ol { margin: 8px 0 0; padding-left: 1.3em; }
+    li + li { margin-top: 5px; }
+    .lead { color: var(--muted); max-width: 900px; font-size: 18px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge, .tag { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; background: #fff; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .badge.blue { color: var(--blue); background: var(--blue-soft); border-color: #c9dcff; }
+    .badge.teal { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .badge.amber { color: var(--amber); background: var(--amber-soft); border-color: #f3d99f; }
+    .rule { margin: 20px 0 30px; padding: 16px 18px; border-left: 4px solid var(--blue); background: var(--blue-soft); border-radius: 10px; font-weight: 700; }
+    .card { margin: 24px 0; padding: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    .qhead { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .qnum { flex: 0 0 auto; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: white; background: var(--blue); font-weight: 900; }
+    .answer { padding: 16px 18px; background: #f8fbff; border: 1px solid #dceaff; border-radius: 12px; }
+    .answer strong { color: var(--ink); }
+    .quote { margin: 18px 0; padding: 14px 17px; border-left: 4px solid var(--teal); background: var(--teal-soft); border-radius: 8px; font-weight: 750; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .mini { padding: 17px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .mini h3 { margin-top: 0; }
+    .mini p { color: var(--muted); }
+    .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 9px; margin: 18px 0; }
+    .node { flex: 1 1 150px; min-width: 130px; padding: 13px 14px; border: 1px solid #c8d9f3; border-radius: 12px; background: #f7fbff; }
+    .node b { display: block; color: var(--blue); }
+    .node small { display: block; color: var(--muted); line-height: 1.5; }
+    .arrow { align-self: center; color: var(--blue); font-size: 24px; font-weight: 900; }
+    .shot { margin: 20px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #f8fafc; }
+    .shot img { display: block; width: 100%; max-height: 270px; object-fit: contain; border-radius: 8px; background: #e9eef5; }
+    figcaption { padding: 9px 4px 0; color: var(--muted); font-size: 13px; }
+    .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
+    pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
+    code { font-family: var(--mono); }
+    :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #174b9d; background: #edf4ff; font-size: .92em; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f2f6fc; color: #31425c; }
+    .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
+    .safe { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .note { margin-top: 13px; color: var(--muted); font-size: 13px; }
+    footer { padding: 16px 0 50px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) {
+      .hero { padding-top: 34px; }
+      .card { padding: 19px; border-radius: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .flow { display: block; }
+      .node { margin: 8px 0; }
+      .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow">Interview detail 01 · Agent 产品设计与系统架构</div>
+      <h1>TronIDE Agent Workspace</h1>
+      <p class="lead">面试不要把它讲成“给 IDE 加一个聊天框”。更准确的定位是：<strong>以 session 为边界、以 task 为执行单元、以 artifact 为证据载体，并把钱包、文件和主网写操作关进策略与人工确认里的 Agent 工作区。</strong></p>
+      <div class="badges">
+        <span class="badge blue">Session / Task / Artifact</span>
+        <span class="badge teal">Tool / Skill / Orchestrator</span>
+        <span class="badge amber">Wallet &amp; Human-in-the-loop</span>
+        <span class="badge">Remote interview prep</span>
+      </div>
+      <div class="rule">面试主线：先定义不可越过的边界，再说明 Agent 如何在边界内提高交付效率。</div>
+    </header>
+
+    <section class="card" id="q1">
+      <div class="qhead"><div class="qnum">01</div><div><div class="kicker">Data model</div><h2>session、artifact、task 如何建模？</h2></div></div>
+      <div class="answer">
+        <p><strong>Session 是连续工作上下文，Task 是可执行的意图，Artifact 是可审查、可复用的结果。</strong> 三者不能都做成一条聊天消息：聊天是交互层，模型调用是执行层，artifact 才是交付和审计层。</p>
+        <ul>
+          <li><strong>Session：</strong>绑定用户、workspace、目标网络、权限策略快照、事件流和生命周期；一次 session 可以继续多个 task。</li>
+          <li><strong>Task：</strong>包含用户意图、结构化计划、当前步骤、tool calls、审批状态、预算/超时和最终 outcome；失败后只允许从明确 checkpoint 恢复。</li>
+          <li><strong>Artifact：</strong>文件 diff、编译 ABI/bytecode、测试报告、部署候选、交易预览或链上交易结果；每个 artifact 带版本、内容 hash、来源和状态。</li>
+          <li><strong>关键关系：</strong>审批绑定的是“不可变的 action/artifact digest”，不是模糊的自然语言；宣称“已上链”必须有 txid 和网络信息。</li>
+        </ul>
+      </div>
+      <div class="flow" aria-label="Session task artifact data model">
+        <div class="node"><b>Session</b><small>identity · workspace · network · policy snapshot · event stream</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Task</b><small>intent · plan · step · tool calls · approval · outcome</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Artifact</b><small>diff · build · test · tx preview/result · hash · provenance</small></div>
+      </div>
+      <pre><code>{
+  "session": {
+    "id": "sess_123",
+    "workspaceRoot": "/repo/demo",
+    "network": "nile",
+    "policySnapshot": "policy_v17",
+    "status": "active"
+  },
+  "task": {
+    "id": "task_456",
+    "intent": "编译并运行合约测试",
+    "sideEffect": "local-only",
+    "state": "awaiting_tool"
+  },
+  "artifact": {
+    "id": "art_789",
+    "kind": "test-report",
+    "contentHash": "sha256:…",
+    "provenance": ["task_456", "tool:test"],
+    "status": "verified"
+  }
+}</code></pre>
+      <figure class="shot">
+        <img src="assets/tronide-test.png" alt="TronIDE 测试环境截图，包含工作区、AI 面板、任务卡、钱包和网络入口" loading="lazy">
+        <figcaption><strong>项目截图：</strong>工作区选择器、AI 面板、任务卡、钱包与网络按钮同时出现，说明 session 不是单一对话，而是把执行上下文集中在一个可控工作区。该图为测试环境，不是主网授权证明。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
+      </figure>
+      <div class="quote">面试可以这样说： “我会把 session 做成上下文和策略边界，把 task 做成可恢复的状态机，把 artifact 做成带 hash 和 provenance 的交付证据；这样模型换了，审计和交付协议仍然稳定。”</div>
+    </section>
+
+    <section class="card" id="q2">
+      <div class="qhead"><div class="qnum">02</div><div><div class="kicker">Runtime architecture</div><h2>Tool、Skill、Orchestrator 如何划分？</h2></div></div>
+      <div class="grid">
+        <div class="mini"><h3>Tool：窄而确定的能力</h3><p>例如读取文件、编译、读取诊断、调用 view、构建交易、请求钱包签名。Tool 只做一件事，声明输入 schema、权限、side effect、超时和输出。</p></div>
+        <div class="mini"><h3>Skill：可复用的业务打法</h3><p>例如“部署前检查”或“合约测试闭环”。Skill 描述什么时候调用哪些 Tool、顺序、前置条件、停止条件、错误恢复和成功证据；它要版本化。</p></div>
+        <div class="mini"><h3>Orchestrator：运行时状态机</h3><p>负责选下一步、执行 tool、持久化事件、应用 policy、控制预算和超时、进入 approval gate，以及在安全 checkpoint 处恢复。</p></div>
+        <div class="mini"><h3>边界原则</h3><p>模型可以提出下一步，但不能绕过 Orchestrator 直接 shell、直接拿私钥或直接修改审计记录。所有副作用都必须从 Tool 的声明进入。</p></div>
+      </div>
+      <div class="flow" aria-label="Tool Skill Orchestrator architecture">
+        <div class="node"><b>User intent</b><small>自然语言目标 + workspace context</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Skill</b><small>领域流程、前置条件、停止条件</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Orchestrator</b><small>policy · state · budget · approvals · events</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Tool</b><small>单一能力 + schema + side-effect label</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Artifact / Event</b><small>结果、证据、可回放日志</small></div>
+      </div>
+      <h3>一个可落地的调用记录</h3>
+      <pre><code>{
+  "tool": "wallet.requestSignature",
+  "inputSchemaVersion": "2.1.0",
+  "sideEffect": "mainnet-write",
+  "risk": "high",
+  "approval": {
+    "required": true,
+    "actionDigest": "sha256:…",
+    "status": "pending"
+  },
+  "timeoutMs": 30000
+}</code></pre>
+      <figure class="shot">
+        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中的 AI 面板与任务卡" loading="lazy">
+        <figcaption><strong>项目截图：</strong>AI 面板和任务卡是产品层；真正的 Tool 调用、策略检查和钱包审批应在后面的 Orchestrator 层完成，而不是让 UI 或模型直接执行。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
+      </figure>
+      <div class="quote">一句话：Tool 是“手”，Skill 是“业务流程”，Orchestrator 是“带刹车和记录仪的运行时”。</div>
+    </section>
+
+    <section class="card" id="q3">
+      <div class="qhead"><div class="qnum">03</div><div><div class="kicker">Irreversible side effects</div><h2>为什么主网写操作不能自动重试？</h2></div></div>
+      <div class="answer">
+        <p>因为“请求超时”不等于“链上没有发生”。签名之后、广播之后，客户端可能丢失响应，但节点或钱包已经接受交易；此时重新构造并签名一笔新交易，可能造成重复转账、重复授权或重复业务动作。</p>
+        <table>
+          <thead><tr><th>阶段</th><th>可以做什么</th><th>处理原则</th></tr></thead>
+          <tbody>
+            <tr><td>读 / 模拟 / 编译</td><td class="safe">有限重试</td><td>只有确定无副作用，且错误属于 transient/rate limit 时才指数退避。</td></tr>
+            <tr><td>签名前</td><td class="safe">重新构建</td><td>可刷新余额、费用、nonce，但仍要重新展示预览并获得确认。</td></tr>
+            <tr><td>签名后或广播超时</td><td class="risk">禁止自动重试</td><td>先按 txid、raw tx、nonce 和交易指纹对账；状态未知时交给人工或显式恢复命令。</td></tr>
+            <tr><td>已确认失败</td><td class="risk">不复制动作</td><td>把链上 revert 当业务结果，修正参数后由用户发起新意图。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow" aria-label="Mainnet write recovery states">
+        <div class="node"><b>Preview</b><small>chain · selector · args · fee · risk</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>User signs</b><small>one-time authorization</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Broadcast</b><small>txid or ambiguous timeout</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Reconcile</b><small>query; never create a second tx silently</small></div>
+      </div>
+      <pre><code>// 伪代码：只在确认“无副作用”时允许重试
+const attempts = requestContext.idempotent ? 2 : 1;
+for (let i = 0; i &lt; attempts; i += 1) {
+  try {
+    return await httpCall();
+  } catch (err) {
+    if (i + 1 === attempts || !isRetriableReadError(err)) throw err;
+    await backoffWithJitter(i);
+  }
+}
+
+// broadcast timeout: query existing state; do not construct a new write.
+return { status: "unknown", nextAction: "manual-reconcile" };</code></pre>
+      <figure class="shot">
+        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中的钱包和 Nile 网络入口" loading="lazy">
+        <figcaption><strong>项目截图：</strong>钱包按钮与 Nile 网络入口是“网络选择 + 钱包授权”的可见边界。它能帮助面试官理解：主网写入不是普通 Tool retry，而是必须让用户看见并确认的高风险动作。截图本身不代表主网状态。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
+      </figure>
+      <div class="quote">面试关键词：unknown outcome、transaction reconciliation、exactly-once illusion、不可逆副作用。不要承诺“至少一次重试”，要承诺“未知状态先对账”。</div>
+    </section>
+
+    <section class="card" id="q4">
+      <div class="qhead"><div class="qnum">04</div><div><div class="kicker">Governance &amp; human control</div><h2>权限、文件边界和人工确认如何落地？</h2></div></div>
+      <div class="answer">
+        <ol>
+          <li><strong>权限：</strong>把 actor、workspace、network、tool、最大费用、风险等级和审批状态放进可执行的 <code>PolicyDecision</code>；默认最小权限，主网写默认 deny。</li>
+          <li><strong>文件边界：</strong>所有路径先 canonicalize，再检查 workspace root；拒绝 <code>..</code>、越界 symlink、密钥文件和 <code>.env</code>。写文件先生成 diff，不能让模型直接覆盖原文件。</li>
+          <li><strong>人工确认：</strong>低风险读取自动执行；本地修改展示 diff；测试网部署显示网络和交易预览；主网写入必须展示 selector、参数、费用、资产影响、artifact hash，并由用户在钱包/Review mode 确认。</li>
+          <li><strong>审计：</strong>记录 requestId、session/task、policy version、tool/schema version、输入摘要、输出、用户决定、txid 和时间；敏感值只存 hash/脱敏摘要。</li>
+        </ol>
+      </div>
+      <pre><code>{
+  "actor": "user_42",
+  "workspaceRoot": "/repo/demo",
+  "allowedPaths": ["/repo/demo/src", "/repo/demo/test"],
+  "deniedPatterns": [".env", "*.key", "*.pem", "../*"],
+  "network": "nile",
+  "tool": "deploy.requestSignature",
+  "maxFeeSun": 120000000,
+  "requiresHumanApproval": true,
+  "artifactDigest": "sha256:…"
+}</code></pre>
+      <div class="grid">
+        <div class="mini"><h3>低风险自动化</h3><p>读源码、编译、静态检查、本地测试、Nile view 调用。失败可保留诊断并继续修复，但必须受 timeout、预算和文件 root 约束。</p></div>
+        <div class="mini"><h3>高风险人工闸门</h3><p>导出签名交易、部署、转账、授权、升级合约和主网写入。用户拒绝后任务进入 stopped/rejected，不能由模型换一个参数悄悄重来。</p></div>
+      </div>
+      <figure class="shot">
+        <img src="assets/tronide-test.png" alt="TronIDE 测试环境中显示 Review 相关任务和钱包入口" loading="lazy">
+        <figcaption><strong>项目截图：</strong>把 Review mode、任务卡和钱包入口放在工作区中，意味着人工确认不是“出了问题再找人”，而是运行时的一等状态。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/tronide-test.png</div>
+      </figure>
+      <div class="quote">最终边界：Agent 可以生成代码、计划和交易候选；用户/钱包才拥有签名权，Orchestrator 才拥有执行编排权，审计系统拥有不可变的事实记录。</div>
+    </section>
+
+    <footer>
+      <strong>使用说明：</strong>本页用于面试口述，不是 TronIDE 生产安全承诺。截图来自本地测试环境，核验日期：2026-09-21；示例中的 hash、ID 和地址均为脱敏占位符。项目相关参考文件：<span class="source">/Users/tron/Object/trontech/interview-prep/agent1/tronide.html</span>。
+    </footer>
+  </main>
+</body>
+</html>

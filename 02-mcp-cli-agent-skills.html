@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP CLI / Agent Skills｜面试准备</title>
+  <style>
+    :root {
+      --ink: #152238;
+      --muted: #5f6f86;
+      --line: #dbe4f0;
+      --panel: #ffffff;
+      --bg: #f5f8fc;
+      --blue: #2367d1;
+      --blue-soft: #eaf2ff;
+      --teal: #0b8f86;
+      --teal-soft: #e6f8f5;
+      --amber: #b56a00;
+      --amber-soft: #fff4dc;
+      --red: #bd3a42;
+      --red-soft: #fff0f1;
+      --purple: #7751b8;
+      --purple-soft: #f2edff;
+      --shadow: 0 14px 34px rgba(28, 53, 88, .08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.72 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    .shell { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 58px 0 34px; }
+    .eyebrow, .kicker { color: var(--purple); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 10px 0 14px; font-size: clamp(30px, 5vw, 48px); line-height: 1.12; letter-spacing: -.035em; }
+    h2 { margin: 0; font-size: 25px; line-height: 1.25; }
+    h3 { margin: 20px 0 8px; font-size: 18px; line-height: 1.35; }
+    p { margin: 9px 0; }
+    ul, ol { margin: 8px 0 0; padding-left: 1.3em; }
+    li + li { margin-top: 5px; }
+    .lead { color: var(--muted); max-width: 920px; font-size: 18px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; background: #fff; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .badge.purple { color: var(--purple); background: var(--purple-soft); border-color: #dacbff; }
+    .badge.blue { color: var(--blue); background: var(--blue-soft); border-color: #c9dcff; }
+    .badge.teal { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .rule { margin: 20px 0 30px; padding: 16px 18px; border-left: 4px solid var(--purple); background: var(--purple-soft); border-radius: 10px; font-weight: 700; }
+    .card { margin: 24px 0; padding: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    .qhead { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .qnum { flex: 0 0 auto; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: white; background: var(--purple); font-weight: 900; }
+    .answer { padding: 16px 18px; background: #fbfaff; border: 1px solid #e5ddff; border-radius: 12px; }
+    .answer strong { color: var(--ink); }
+    .quote { margin: 18px 0; padding: 14px 17px; border-left: 4px solid var(--teal); background: var(--teal-soft); border-radius: 8px; font-weight: 750; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .mini { padding: 17px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .mini h3 { margin-top: 0; }
+    .mini p { color: var(--muted); }
+    .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 9px; margin: 18px 0; }
+    .node { flex: 1 1 150px; min-width: 130px; padding: 13px 14px; border: 1px solid #d2c6f6; border-radius: 12px; background: #fbfaff; }
+    .node b { display: block; color: var(--purple); }
+    .node small { display: block; color: var(--muted); line-height: 1.5; }
+    .arrow { align-self: center; color: var(--purple); font-size: 24px; font-weight: 900; }
+    pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
+    code { font-family: var(--mono); }
+    :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #5d3c9a; background: #f2edff; font-size: .92em; }
+    .code-label { margin: 18px 0 0; color: var(--purple); font-size: 13px; font-weight: 800; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f2f6fc; color: #31425c; }
+    .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
+    .safe { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .warn { color: var(--amber); background: var(--amber-soft); border-color: #f3d99f; }
+    .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
+    footer { padding: 16px 0 50px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) {
+      .hero { padding-top: 34px; }
+      .card { padding: 19px; border-radius: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .flow { display: block; }
+      .node { margin: 8px 0; }
+      .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow">Interview detail 02 · MCP / CLI / Agent Skills</div>
+      <h1>把链上能力拆成可验证的协议</h1>
+      <p class="lead">这部分要体现“工程治理”，不是只会接 Function Calling。核心是把 <strong>read、simulate、write</strong> 变成三条不同风险通道，并用 schema、幂等边界、交易状态机和审计证据控制不确定性。</p>
+      <div class="badges">
+        <span class="badge purple">MCP output contract 1.0.0</span>
+        <span class="badge blue">read / simulate / write</span>
+        <span class="badge teal">bounded retry &amp; recovery</span>
+      </div>
+      <div class="rule">面试主线：先把“能调用”变成“知道副作用”，再把“调用失败”变成“可恢复、可审计的状态”。</div>
+    </header>
+
+    <section class="card" id="q1">
+      <div class="qhead"><div class="qnum">01</div><div><div class="kicker">Side-effect separation</div><h2>read、simulate、write 为什么必须分离？</h2></div></div>
+      <div class="answer">
+        <p>三者都可能长得像“调用合约”，但风险和恢复方法完全不同。把它们塞进一个万能 <code>call</code>，模型就无法知道什么时候可以重试、什么时候必须停下来让人签名。</p>
+        <table>
+          <thead><tr><th>通道</th><th>含义</th><th>默认权限与恢复</th></tr></thead>
+          <tbody>
+            <tr><td><strong>read</strong></td><td>链上 view、余额、市场和账户信息；不签名、不广播。</td><td class="safe">可缓存、可在 transient/rate limit 时有限重试。</td></tr>
+            <tr><td><strong>simulate</strong></td><td>构建 calldata 并做 constant/preflight；可以得到 revert、selector、energy/fee 预估。</td><td class="safe">不移动价值、不持有 signer；失败通常是参数或业务条件问题。</td></tr>
+            <tr><td><strong>write</strong></td><td>构建交易、请求签名、广播并跟踪确认。</td><td class="risk">必须显式确认；签名/广播后的未知状态禁止自动生成第二笔交易。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow" aria-label="Read simulate write separated lanes">
+        <div class="node"><b>READ</b><small>RPC query → JSON evidence<br>safe retry / cache</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>SIMULATE</b><small>calldata → revert / gas / fee<br>no signer, no broadcast</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>WRITE</b><small>preview → approval → sign → broadcast<br>no automatic retry</small></div>
+      </div>
+      <p class="code-label">关键代码：先返回 dry-run，再进入 signer 和 broadcast（精简自实际实现）</p>
+      <pre><code>async function sendContractTx(params, opts) {
+  if (opts.dryRun) {
+    return dryRunContractTx(params, owner); // no signer / no broadcast
+  }
+
+  const built = await buildTx(params);
+  await runPrecheck(built);                 // balance, fee, revert
+  await confirmProceed(preview(built), opts.yes);
+
+  const signed = await signer.signTransaction(built);
+  if (!opts.broadcast) {
+    return { status: "signed", signedTx: redact(signed) };
+  }
+  return await broadcastTx(signed);
+}</code></pre>
+      <div class="quote">我会在 Tool schema 里显式写 <code>sideEffect: read | simulate | write</code>，而不是靠工具名猜。Agent 可以自动编排 read/simulate，但 write 必须走单独的 approval policy。</div>
+      <div class="source">项目依据：/Users/tron/Object/trontech/justlend-cli/src/lib/tx.ts；只展示面试化精简片段。</div>
+    </section>
+
+    <section class="card" id="q2">
+      <div class="qhead"><div class="qnum">02</div><div><div class="kicker">Transaction state &amp; recovery</div><h2>交易失败、超时、重复广播如何处理？</h2></div></div>
+      <div class="answer">
+        <p><strong>先分类，再动作。</strong> “失败”至少要区分输入错误、模拟 revert、签名被拒、广播明确失败、广播结果未知、链上确认失败。只有前两类可以直接修参数；广播未知时，第一动作永远是对账，不是重签。</p>
+        <table>
+          <thead><tr><th>事件</th><th>分类</th><th>策略</th></tr></thead>
+          <tbody>
+            <tr><td>schema/参数错误、权限失效</td><td>确定性失败</td><td>不重试，返回字段级 hint，让上层修正。</td></tr>
+            <tr><td>read RPC 5xx、rate limit、瞬时网络异常</td><td>可重试</td><td>指数退避 + jitter，次数和总预算有上限。</td></tr>
+            <tr><td>simulate revert</td><td>业务/参数失败</td><td>记录 revert reason，回到预览或人工确认，不盲目重放。</td></tr>
+            <tr><td>钱包拒签/断开</td><td>用户/依赖失败</td><td>停止当前 task；用户重新发起时重新展示预览。</td></tr>
+            <tr><td>广播超时、客户端断线</td><td class="warn">未知状态</td><td>按 txid/raw tx/nonce/指纹查询；在结论前禁止生成新 write。</td></tr>
+            <tr><td>链上 confirmed revert</td><td class="risk">已发生的失败</td><td>当成业务结果入账，不复制动作；修参数后创建新意图。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow" aria-label="Transaction recovery state machine">
+        <div class="node"><b>prepared</b><small>transaction preview</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>simulated</b><small>revert / energy / fee known</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>awaiting_approval</b><small>human gate</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>signed / submitted</b><small>tx fingerprint recorded</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>unknown → reconcile</b><small>confirmed / failed / expired</small></div>
+      </div>
+      <p class="code-label">关键代码：幂等声明决定 HTTP 是否可重试；broadcast error 明确不可重试</p>
+      <pre><code>// /Users/tron/Object/trontech/justlend-cli/src/lib/http.ts
+const attempts = requestContext.idempotent ? 2 : 1;
+...
+if (!more || !isRetriableError(err)) throw err;
+
+// /Users/tron/Object/trontech/justlend-cli/src/lib/error.ts
+return {
+  code: "BROADCAST_FAILED",
+  retryable: false,
+  hint: "Inspect the transaction state manually; writes must never be auto-retried."
+};</code></pre>
+      <div class="grid">
+        <div class="mini"><h3>防重复广播</h3><p>给每次用户意图生成持久化 intent key；记录 owner、network、method、参数摘要、fee、nonce 和 signed tx fingerprint。对账完成前，对同一 intent 加锁。</p></div>
+        <div class="mini"><h3>不要伪造 exactly-once</h3><p>客户端最多做到“同一意图不静默创建第二笔”；最终是否上链要以节点确认和链上状态为准，而不是以本地 HTTP 返回为准。</p></div>
+      </div>
+      <div class="quote">最容易被追问的边界：<strong>签名前失败可以重建；签名后失败只能查询和对账。</strong> 如果用户明确要求重发，也应先显示“可能已经成功”的风险。</div>
+      <div class="source">项目依据：/Users/tron/Object/trontech/justlend-cli/src/lib/http.ts、/Users/tron/Object/trontech/justlend-cli/src/lib/error.ts。</div>
+    </section>
+
+    <section class="card" id="q3">
+      <div class="qhead"><div class="qnum">03</div><div><div class="kicker">Contract, idempotency &amp; audit</div><h2>如何做 schema、幂等、审计和错误恢复？</h2></div></div>
+      <div class="answer">
+        <ol>
+          <li><strong>Schema：</strong>每个 Tool 有严格的 input schema；输出统一携带 <code>schemaVersion</code>、<code>tool</code>，成功走 <code>result</code>，失败走 <code>error/errorCode/retryable/hint</code>。输入未知字段默认拒绝，避免模型“猜参数”。</li>
+          <li><strong>幂等：</strong>只给无副作用 HTTP 请求加 <code>idempotent=true</code>；签名和广播永远不标记为幂等。写操作记录 intent/action digest 和 signed tx fingerprint，状态未知时只做 reconciliation。</li>
+          <li><strong>审计：</strong>requestId、session/task、actor、network、tool/schema version、脱敏输入摘要、输出、policy decision、approval、txid、block 和时间组成一条 append-only evidence。</li>
+          <li><strong>错误恢复：</strong>把“可重试”和“需要人工处理”分开；读任务可以从 checkpoint 继续，写任务从 <code>unknown</code> 状态进入对账，而不是从头运行。</li>
+        </ol>\n      </div>
+      <div class="flow" aria-label="MCP contract and audit pipeline">
+        <div class="node"><b>Request</b><small>session/task/requestId<br>input schema validation</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Adapter</b><small>read / simulate / write<br>side-effect policy</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Envelope</b><small>schemaVersion<br>result or error contract</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Evidence</b><small>audit event + recovery checkpoint<br>txid / fingerprint</small></div>
+      </div>
+      <p class="code-label">关键代码：统一 MCP 输出契约（精简自 mcp_contract.mjs）</p>
+      <pre><code>const MCP_TOOL_OUTPUT_SCHEMA = {
+  type: "object",
+  required: ["schemaVersion", "tool"],
+  oneOf: [
+    { required: ["result"] },
+    { required: ["error", "errorCode", "retryable", "hint"] }
+  ],
+  properties: {
+    schemaVersion: { const: "1.0.0" },
+    tool: { type: "string" },
+    errorCode: {
+      enum: ["invalid_input", "authentication",
+             "rate_limit", "transient", "internal"]
+    },
+    retryable: { type: "boolean" }
+  },
+  additionalProperties: false
+};
+
+return createToolError(tool, {
+  errorCode: "transient",
+  retryable: true,
+  hint: "retry with bounded backoff"
+});</code></pre>
+      <p class="code-label">审计事件最小字段</p>
+      <pre><code>{
+  "requestId": "req_123",
+  "sessionId": "sess_456",
+  "taskId": "task_789",
+  "tool": "get_account_summary",
+  "schemaVersion": "1.0.0",
+  "actor": "agent",
+  "network": "mainnet",
+  "inputDigest": "sha256:…",
+  "outcome": "success | retryable_error | manual_reconcile",
+  "txid": null,
+  "capturedAt": "2026-09-21T…Z"
+}</code></pre>
+      <div class="grid">
+        <div class="mini"><h3>Skills 层的价值</h3><p>把“先查账户 summary，再解释 shortfall”这样的业务规则写进版本化 Skill；MCP server 只保证工具契约，Skill 决定业务顺序和停止条件。</p></div>
+        <div class="mini"><h3>安全输出</h3><p>CLI JSON/quiet 模式拒绝没有显式 consent 的 value-moving write；签名交易默认脱敏，并提示任何拿到 raw signed tx 的人都可能在过期前广播。</p></div>
+      </div>
+      <div class="quote">可复述的工程判断：schema 约束“能不能调用”，policy 约束“该不该调用”，state machine 约束“调用后怎么办”，audit 约束“事后能不能证明”。</div>
+      <div class="source">项目依据：/Users/tron/Object/trontech/justlend-skills/scripts/mcp_contract.mjs、mcp_tools.mjs、mcp_server.mjs；/Users/tron/Object/trontech/justlend-cli/src/lib/output.ts、precheck.ts。</div>
+    </section>
+
+    <footer>
+      <strong>使用说明：</strong>本页代码块是基于实际 CLI/MCP 实现整理的面试化摘录，不包含任何私钥或真实凭据。建议口述时先讲风险分类，再讲 schema 和恢复路径。核验日期：2026-09-21。
+    </footer>
+  </main>
+</body>
+</html>

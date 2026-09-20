@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Argus｜治理型调查 Agent 面试准备</title>
+  <style>
+    :root {
+      --ink: #152238;
+      --muted: #5f6f86;
+      --line: #dbe4f0;
+      --panel: #ffffff;
+      --bg: #f5f8fc;
+      --blue: #2367d1;
+      --blue-soft: #eaf2ff;
+      --teal: #0b8f86;
+      --teal-soft: #e6f8f5;
+      --amber: #b56a00;
+      --amber-soft: #fff4dc;
+      --red: #bd3a42;
+      --red-soft: #fff0f1;
+      --purple: #7751b8;
+      --purple-soft: #f2edff;
+      --shadow: 0 14px 34px rgba(28, 53, 88, .08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.72 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    .shell { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 58px 0 34px; }
+    .eyebrow, .kicker { color: var(--teal); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 10px 0 14px; font-size: clamp(30px, 5vw, 48px); line-height: 1.12; letter-spacing: -.035em; }
+    h2 { margin: 0; font-size: 25px; line-height: 1.25; }
+    h3 { margin: 20px 0 8px; font-size: 18px; line-height: 1.35; }
+    p { margin: 9px 0; }
+    ul, ol { margin: 8px 0 0; padding-left: 1.3em; }
+    li + li { margin-top: 5px; }
+    .lead { color: var(--muted); max-width: 920px; font-size: 18px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; background: #fff; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .badge.teal { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .badge.blue { color: var(--blue); background: var(--blue-soft); border-color: #c9dcff; }
+    .badge.amber { color: var(--amber); background: var(--amber-soft); border-color: #f3d99f; }
+    .rule { margin: 20px 0 30px; padding: 16px 18px; border-left: 4px solid var(--teal); background: var(--teal-soft); border-radius: 10px; font-weight: 700; }
+    .card { margin: 24px 0; padding: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    .qhead { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .qnum { flex: 0 0 auto; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: white; background: var(--teal); font-weight: 900; }
+    .answer { padding: 16px 18px; background: #f8fffe; border: 1px solid #cdeee9; border-radius: 12px; }
+    .answer strong { color: var(--ink); }
+    .quote { margin: 18px 0; padding: 14px 17px; border-left: 4px solid var(--blue); background: var(--blue-soft); border-radius: 8px; font-weight: 750; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .mini { padding: 17px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .mini h3 { margin-top: 0; }
+    .mini p { color: var(--muted); }
+    .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 9px; margin: 18px 0; }
+    .node { flex: 1 1 150px; min-width: 130px; padding: 13px 14px; border: 1px solid #bfe4df; border-radius: 12px; background: #f8fffe; }
+    .node b { display: block; color: var(--teal); }
+    .node small { display: block; color: var(--muted); line-height: 1.5; }
+    .arrow { align-self: center; color: var(--teal); font-size: 24px; font-weight: 900; }
+    .shot { margin: 20px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #f8fafc; }
+    .shot img { display: block; width: 100%; max-height: 470px; object-fit: contain; border-radius: 8px; background: #e9eef5; }
+    figcaption { padding: 9px 4px 0; color: var(--muted); font-size: 13px; }
+    .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
+    pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
+    code { font-family: var(--mono); }
+    :not(pre) > code { padding: 2px 5px; border-radius: 5px; color: #166c64; background: #e8f8f5; font-size: .92em; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    th, td { padding: 10px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f2f6fc; color: #31425c; }
+    .risk { color: var(--red); background: var(--red-soft); border-color: #f0c5c8; }
+    .safe { color: var(--teal); background: var(--teal-soft); border-color: #bfe9e3; }
+    .warn { color: var(--amber); background: var(--amber-soft); border-color: #f3d99f; }
+    footer { padding: 16px 0 50px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) {
+      .hero { padding-top: 34px; }
+      .card { padding: 19px; border-radius: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .flow { display: block; }
+      .node { margin: 8px 0; }
+      .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow">Interview detail 03 · Argus</div>
+      <h1>Argus：治理型调查 Agent</h1>
+      <p class="lead">Argus 最重要的不是“模型会不会识别地址风险”，而是把调查做成 <strong>plan → act → observe → decide</strong> 的受约束闭环：模型负责提出下一步和解释证据，确定性策略负责证据完整性、风险阈值、fail-closed 和最终可审计边界。</p>
+      <div class="badges">
+        <span class="badge teal">Model proposes</span>
+        <span class="badge blue">Policy disposes</span>
+        <span class="badge amber">Human review for uncertainty</span>
+        <span class="badge">CLEAR / REVIEW / BLOCK</span>
+      </div>
+      <div class="rule">面试主线：不要让模型直接“拍板”。让模型做调查和归纳，让策略层决定是否允许 CLEAR，让人工处理证据不足和高风险例外。</div>
+    </header>
+
+    <section class="card" id="q1">
+      <div class="qhead"><div class="qnum">01</div><div><div class="kicker">Model vs deterministic policy</div><h2>哪些判断交给模型，哪些判断放在确定性策略层？</h2></div></div>
+      <div class="answer">
+        <p><strong>模型适合做开放式的搜索和归纳，策略层适合做不可含糊的授权判断。</strong> 我会把最终决策设计成“模型建议 + 规则校验 + policy override”，而不是让模型输出一个无法追溯的自然语言结论。</p>
+        <table>
+          <thead><tr><th>交给模型</th><th>确定性策略层</th></tr></thead>
+          <tbody>
+            <tr><td>根据当前证据选择下一个工具：sanctions_screen、address_profile、trace_transactions、risk_rules。</td><td>工具 allowlist、参数 schema、最大 step/budget、超时和每一步持久化。</td></tr>
+            <tr><td>从交易、标签和命中结果中提炼 risk factors、时间线和解释。</td><td>direct sanctions hit 的 BLOCK；风险分段阈值；阈值来自可版本化的 policy，而不是 prompt。</td></tr>
+            <tr><td>提出 CLEAR / REVIEW / BLOCK 以及下一步补证据建议。</td><td>required evidence 必须成功且非空；证据缺失、错误或 provider 不可用时，禁止 CLEAR。</td></tr>
+            <tr><td>生成给 reviewer 看的自然语言摘要。</td><td>审计日志、decision override、case 状态迁移和人工动作权限。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow" aria-label="Argus model policy architecture">
+        <div class="node"><b>Model</b><small>select next tool<br>summarize observations</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Tool sandbox</b><small>allowlist + schema<br>evidence with source/time</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Policy guard</b><small>required evidence<br>thresholds + overrides</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Decision</b><small>CLEAR / REVIEW / BLOCK<br>persisted and auditable</small></div>
+      </div>
+      <p class="source">项目依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/AgentOrchestrator.java、LocalRuleAgentProvider.java、AnthropicLlmProvider.java。</p>
+      <figure class="shot">
+        <img src="assets/argus-pages.png" alt="Argus GitHub Pages 静态演示，显示 plan act observe decide、钱包样例和 CLEAR REVIEW BLOCK 入口" loading="lazy">
+        <figcaption><strong>项目截图：</strong>Argus 的 demo 把“plan → act → observe → decide”和 CLEAR / REVIEW / BLOCK 结果放在同一个产品面上；面试时要补充说明：浏览器页是静态 fixture，真实编排与策略边界在后端服务中。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
+      </figure>
+      <pre><code>// 真实运行时的核心形态：每一步先持久化，再决定是否结束
+for (int step = 1; step &lt;= investigation.maxSteps(); step++) {
+    AgentAction action = llmProvider.nextAction(context);
+
+    if (action.type() == FINISH) {
+        recordFinish(investigation, action);
+        return complete(investigation);
+    }
+
+    Map&lt;String, Object&gt; observation = toolClient.invoke(
+        action.toolName(), action.toolArgs());
+    context.record(action, observation);
+    recordToolStep(investigation, action, observation);
+    store.save(investigation);
+}
+forceReviewOnStepCap(investigation);</code></pre>
+      <div class="quote">最好用的一句话：<strong>模型负责“调查什么、怎么解释”，策略层负责“什么证据才足以放行”。</strong></div>
+    </section>
+
+    <section class="card" id="q2">
+      <div class="qhead"><div class="qnum">02</div><div><div class="kicker">Fail-closed</div><h2>什么情况下 fail-closed？</h2></div></div>
+      <div class="answer">
+        <p>这里的 fail-closed 不是“任何异常都 BLOCK”，而是<strong>任何不能证明安全的情况都不能产出 CLEAR</strong>。根据风险类型，结果可以是 BLOCK，也可以是 REVIEW。</p>
+        <table>
+          <thead><tr><th>情况</th><th>安全结果</th><th>原因</th></tr></thead>
+          <tbody>
+            <tr><td>sanctions_screen 直接命中</td><td class="risk">BLOCK</td><td>存在明确的硬规则命中，不需要等待模型解释。</td></tr>
+            <tr><td>required evidence 缺失、为空、error 或 evidenceComplete=false</td><td class="warn">REVIEW</td><td>证据不完整，不能证明 CLEAR；交给人补证或决定。</td></tr>
+            <tr><td>模型超时、provider 异常、返回无法解析的文本、没有结构化 finish</td><td class="warn">REVIEW</td><td>自动调查未完成，不能把失败转换成“看起来安全”。</td></tr>
+            <tr><td>step cap / 预算耗尽</td><td class="warn">REVIEW</td><td>到达运行时边界，避免 Agent 无限探索或绕过审计。</td></tr>
+            <tr><td>policy/schema/工具权限违规、来源冲突或数据覆盖不足</td><td class="warn">REVIEW</td><td>暂停并暴露 coverage gap，而不是隐藏缺口。</td></tr>
+            <tr><td>策略服务暂时不可达</td><td class="warn">保守策略 + REVIEW</td><td>可使用明确的保守默认值，但不能用模型自由决定。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow" aria-label="Argus fail closed decision path">
+        <div class="node"><b>Any observation</b><small>tool result + freshness + source</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Hard guard</b><small>direct hit? schema? policy? evidence?</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Override</b><small>never CLEAR with missing proof</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>REVIEW / BLOCK</b><small>with reason and evidence gap</small></div>
+      </div>
+      <pre><code>// 确定性保护：模型即使建议 CLEAR，也要被策略层校验
+if (directSanctionsHit(observations)) {
+    return finish("BLOCK", "direct sanctions hit");
+}
+if (missingRequiredEvidence(observations)) {
+    return finish("REVIEW", "required evidence incomplete");
+}
+
+AgentAction proposed = model.finish(decision, factors);
+if ("CLEAR".equals(proposed.decision())
+    &amp;&amp; !hasValidRequiredEvidence(observations)) {
+    return finish("REVIEW", "model CLEAR overridden: missing evidence");
+}
+return policy.validate(proposed);</code></pre>
+      <figure class="shot">
+        <img src="assets/argus-pages.png" alt="Argus 静态演示中展示 CLEAR、REVIEW、BLOCK 不同结果的样例" loading="lazy">
+        <figcaption><strong>项目截图：</strong>页面里的 CLEAR / REVIEW / BLOCK 是产品结果的可视化；面试时应强调其中 REVIEW 不是失败，而是对“证据不足、模型未完成或策略无法确定”的安全出口。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
+      </figure>
+      <div class="quote">区分两个词：<strong>BLOCK 是风险证据足够强，REVIEW 是安全证据不足。</strong> 两者都阻止自动放行，但处理动作不同。</div>
+    </section>
+
+    <section class="card" id="q3">
+      <div class="qhead"><div class="qnum">03</div><div><div class="kicker">Human-in-the-loop</div><h2>如何进入人工审核？</h2></div></div>
+      <div class="answer">
+        <p>人工审核应是一个明确的 case state，不是“模型输出一句请人工看看”。当系统进入 <code>REVIEW_REQUIRED</code>，Orchestrator 停止自动 side effect，把证据、缺口和策略版本聚合到 reviewer 工作台；reviewer 的动作再作为新的审计事件推动状态迁移。</p>
+        <div class="flow" aria-label="Argus human review state machine">
+          <div class="node"><b>RUNNING</b><small>bounded investigation</small></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>REVIEW_REQUIRED</b><small>evidence gap / uncertainty</small></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>Reviewer opens case</b><small>timeline · sources · policy</small></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>APPROVE / REJECT / MORE</b><small>identity + reason + timestamp</small></div>
+        </div>
+        <ol>
+          <li><strong>进入条件：</strong>模型异常、证据缺失、数据冲突、step cap、阈值附近、规则命中需要解释，或任何高风险动作前。</li>
+          <li><strong>审核材料：</strong>case timeline、每次 tool call、原始 observation 的 locator/source/captured_at/hash、模型摘要、risk factors、policy version 和失败原因。</li>
+          <li><strong>审核动作：</strong>批准、拒绝、补充证据、改为观察；每个动作必须绑定 reviewer 身份、理由和时间，不能覆盖原始模型/工具记录。</li>
+          <li><strong>执行边界：</strong>Argus 的 CLEAR/REVIEW/BLOCK 是调查决策，不等于直接冻结资产或发起链上动作；任何外部副作用还要经过独立的 execution permission。</li>
+        </ol>
+      </div>
+      <pre><code>{
+  "caseId": "case_123",
+  "state": "REVIEW_REQUIRED",
+  "reason": "required evidence incomplete",
+  "policyVersion": "screening_policy_17",
+  "evidence": [
+    {
+      "source": "sanctions_screen",
+      "locator": "provider-result/abc",
+      "capturedAt": "2026-09-21T…Z",
+      "hash": "sha256:…",
+      "status": "valid"
+    }
+  ],
+  "review": {
+    "allowedActions": ["approve", "reject", "request_more_evidence"],
+    "sideEffect": "none"
+  }
+}</code></pre>
+      <figure class="shot">
+        <img src="assets/argus-pages.png" alt="Argus 静态演示中的钱包选择与 CLEAR REVIEW BLOCK 按钮" loading="lazy">
+        <figcaption><strong>项目截图：</strong>静态页面中的 fixture wallet 与 CLEAR / REVIEW / BLOCK 控件可以用来演示人工审核入口；真实产品还应把 reviewer 身份、证据时间线、policy 版本和最终动作写入后端审计。</figcaption>
+        <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
+      </figure>
+      <div class="quote">面试回答模板： “我不会把人工审核放在模型输出之后的前端 if 判断里，而会把 REVIEW_REQUIRED 做成持久化状态；自动流程停在这里，reviewer 的动作拥有自己的权限、理由和审计事件。”</div>
+    </section>
+
+    <footer>
+      <strong>边界说明：</strong>截图来自 Argus GitHub Pages 静态 fixture，页面明确声明没有 live screening、identity service、backend 或 model call；它用于说明交互与结果形态，不是生产合规或安全证明。真实工程依据：<span class="source">/Users/tron/Object/trontech/interview-prep/argus-agent2</span>。核验日期：2026-09-21。
+    </footer>
+  </main>
+</body>
+</html>
