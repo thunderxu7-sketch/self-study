@@ -58,8 +58,11 @@
     .node small { display: block; color: var(--muted); line-height: 1.5; }
     .arrow { align-self: center; color: var(--teal); font-size: 24px; font-weight: 900; }
     .shot { margin: 20px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #f8fafc; }
+    .shot-frame { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+    .shot-link { display: block; width: 100%; }
     .shot img { display: block; width: 100%; max-height: 470px; object-fit: contain; border-radius: 8px; background: #e9eef5; }
     figcaption { padding: 9px 4px 0; color: var(--muted); font-size: 13px; }
+    .shot-hint { display: none; color: #708097; font-size: 12px; margin-top: 6px; }
     .source { color: #708097; font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
     pre { margin: 15px 0; padding: 16px 18px; overflow: auto; color: #eaf2ff; background: #142033; border-radius: 12px; font: 13px/1.65 var(--mono); }
     code { font-family: var(--mono); }
@@ -76,6 +79,8 @@
       .card { padding: 19px; border-radius: 14px; }
       .grid { grid-template-columns: 1fr; }
       .flow { display: block; }
+      .shot-hint { display: block; }
+      .shot-fullpage .shot-frame img { width: 960px; max-width: none; max-height: none; object-fit: initial; }
       .node { margin: 8px 0; }
       .arrow { display: block; text-align: center; transform: rotate(90deg); height: 25px; }
     }
@@ -120,8 +125,11 @@
         <div class="node"><b>Decision</b><small>CLEAR / REVIEW / BLOCK<br>persisted and auditable</small></div>
       </div>
       <p class="source">项目依据：/Users/tron/Object/trontech/interview-prep/argus-agent2/backend/agent-orchestrator-service/src/main/java/com/argus/orchestrator/agent/AgentOrchestrator.java、LocalRuleAgentProvider.java、AnthropicLlmProvider.java。</p>
-      <figure class="shot">
-        <img src="assets/argus-pages.png" alt="Argus GitHub Pages 静态演示，显示 plan act observe decide、钱包样例和 CLEAR REVIEW BLOCK 入口" loading="lazy">
+      <figure class="shot shot-fullpage">
+        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
+        <img src="assets/argus-pages.png" alt="Argus GitHub Pages 静态演示，显示 plan act observe decide、钱包样例和 CLEAR REVIEW BLOCK 入口" loading="eager" width="2880" height="2198">
+        </a></div>
+        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
         <figcaption><strong>项目截图：</strong>Argus 的 demo 把“plan → act → observe → decide”和 CLEAR / REVIEW / BLOCK 结果放在同一个产品面上；面试时要补充说明：浏览器页是静态 fixture，真实编排与策略边界在后端服务中。</figcaption>
         <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
       </figure>
@@ -183,8 +191,11 @@ if ("CLEAR".equals(proposed.decision())
     return finish("REVIEW", "model CLEAR overridden: missing evidence");
 }
 return policy.validate(proposed);</code></pre>
-      <figure class="shot">
-        <img src="assets/argus-pages.png" alt="Argus 静态演示中展示 CLEAR、REVIEW、BLOCK 不同结果的样例" loading="lazy">
+      <figure class="shot shot-fullpage">
+        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
+        <img src="assets/argus-pages.png" alt="Argus 静态演示中展示 CLEAR、REVIEW、BLOCK 不同结果的样例" loading="eager" width="2880" height="2198">
+        </a></div>
+        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
         <figcaption><strong>项目截图：</strong>页面里的 CLEAR / REVIEW / BLOCK 是产品结果的可视化；面试时应强调其中 REVIEW 不是失败，而是对“证据不足、模型未完成或策略无法确定”的安全出口。</figcaption>
         <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
       </figure>
@@ -230,8 +241,11 @@ return policy.validate(proposed);</code></pre>
     "sideEffect": "none"
   }
 }</code></pre>
-      <figure class="shot">
-        <img src="assets/argus-pages.png" alt="Argus 静态演示中的钱包选择与 CLEAR REVIEW BLOCK 按钮" loading="lazy">
+      <figure class="shot shot-fullpage">
+        <div class="shot-frame"><a class="shot-link" href="assets/argus-pages.png" target="_blank" rel="noopener">
+        <img src="assets/argus-pages.png" alt="Argus 静态演示中的钱包选择与 CLEAR REVIEW BLOCK 按钮" loading="eager" width="2880" height="2198">
+        </a></div>
+        <div class="shot-hint">移动端：可左右滑动查看截图，点击截图可打开原图。</div>
         <figcaption><strong>项目截图：</strong>静态页面中的 fixture wallet 与 CLEAR / REVIEW / BLOCK 控件可以用来演示人工审核入口；真实产品还应把 reviewer 身份、证据时间线、policy 版本和最终动作写入后端审计。</figcaption>
         <div class="source">来源：/Users/tron/Object/trontech/interview-prep/agent1/assets/argus-pages.png</div>
       </figure>
